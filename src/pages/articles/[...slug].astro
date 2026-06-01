@@ -26,7 +26,14 @@ const thumbSrc = article.data.thumb
     : `${base}${article.data.thumb}`
   : null;
 ---
-<BaseLayout title={article.data.title} description={article.data.description}>
+<BaseLayout
+  title={article.data.title}
+  description={article.data.description}
+  type="article"
+  image={article.data.thumb}
+  publishedDate={article.data.pubDate}
+  modifiedDate={article.data.updatedDate}
+>
   <article class="container">
     <div class="article-body">
       <h1>{article.data.title}</h1>

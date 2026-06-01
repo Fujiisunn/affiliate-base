@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /preview/
+Allow: /
+
+Sitemap: https://Fujiisunn.github.io/affiliate-base/sitemap-index.xml

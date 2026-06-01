@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 
 // === 新メディア立ち上げ時に編集 ===
 // GitHub Pages サブパス配信なら BASE = '/<repo-name>'、
@@ -11,5 +12,5 @@ export default defineConfig({
   site: 'https://Fujiisunn.github.io',
   base: BASE,
   trailingSlash: 'always',
-  integrations: [mdx()],
+  integrations: [mdx(), sitemap()],
 });
