@@ -104,6 +104,9 @@ const articleSchema =
 
     <title>{fullTitle}</title>
 
+    {/* === Google AdSense を使う場合、ローダーの <script> をこの下に1回だけ貼る === */}
+    {/* 例: <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX" crossorigin="anonymous" is:inline></script> */}
+
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     {articleSchema && (
       <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
@@ -117,5 +120,15 @@ const articleSchema =
     </main>
     <Footer />
     <a href="#top" class="back-to-top" aria-label="ページトップへ">↑</a>
+
+    {/* adConfig.ts に貼られた広告タグ内の <script> を実行させるための処理 */}
+    <script is:inline>
+      document.querySelectorAll('.ad-slot__inner script').forEach((oldScript) => {
+        const s = document.createElement('script');
+        for (const attr of oldScript.attributes) s.setAttribute(attr.name, attr.value);
+        s.textContent = oldScript.textContent;
+        oldScript.replaceWith(s);
+      });
+    </script>
   </body>
 </html>

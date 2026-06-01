@@ -776,3 +776,39 @@ img {
   color: var(--color-primary);
   border-color: var(--color-primary);
 }
+
+/* === 広告枠(AdSlot) === */
+.ad-slot {
+  display: block;
+  margin: 1.75rem auto;
+  padding: 0;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ad-slot__label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-bottom: 0.35rem;
+}
+
+.ad-slot__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+}
+
+.ad-slot__inner :where(img, iframe, ins) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* サイドバー内の枠は上に少し余白 */
+.sidebar .ad-slot {
+  margin-top: 1.5rem;
+}

@@ -34,6 +34,17 @@
 7. `src/content/articles/sample.md` を複製して記事を作成
 8. `public/favicon.svg` / ロゴ・OGP を差し替え
 
+## 広告枠(AdSlot)
+
+広告の「枠」だけを全記事に用意してある。**`src/adConfig.ts` に広告タグを貼るだけ**で、全記事の該当位置に自動表示される(案件選び・LPの作り込みは対象外)。
+
+- 枠の位置:**記事冒頭(`top`)/ 本文中(`incontent`)/ 記事末尾(`bottom`)/ サイドバー(`sidebar`)**
+- `src/adConfig.ts` の各位置に、忍者AdMax / AdSense 等のタグを貼る。**空のままなら枠ごと非表示**
+- `<script>` を含むタグでも実行される(`BaseLayout.astro` 末尾のフォロー処理)
+- **本文中(`incontent`)**:`.mdx` 記事内の好きな場所に `import AdSlot from '../../components/AdSlot.astro'` して `<AdSlot position="incontent" />` を置く
+- **AdSense** を使う場合:ローダーの `<script>` は `BaseLayout.astro` の `<head>` 内の目印コメント箇所に1回だけ貼る(各ユニットの `<ins>` は `adConfig.ts` へ)
+- 枠の見た目は `global.css` の `/* 広告枠(AdSlot) */` 節で調整
+
 ## コマンド
 
 ```bash

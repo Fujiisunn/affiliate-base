@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles', ({ data }) => !data.draft);
@@ -43,7 +44,9 @@ const thumbSrc = article.data.thumb
           <img src={thumbSrc} alt={article.data.title} />
         </div>
       )}
+      <AdSlot position="top" />
       <Content />
+      <AdSlot position="bottom" />
     </div>
   </article>
 </BaseLayout>

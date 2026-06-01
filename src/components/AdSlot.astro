@@ -1,0 +1,19 @@
+---
+// 広告の「枠」。adConfig.ts に貼られたコードを該当位置に表示する。
+// コードが空の位置は、枠ごと何も出力しない。
+import { AD_SLOTS, type AdPosition } from '../adConfig';
+
+interface Props {
+  position: AdPosition;
+}
+
+const { position } = Astro.props;
+const code = AD_SLOTS[position] ?? '';
+const hasCode = code.trim().length > 0;
+---
+{hasCode && (
+  <aside class="ad-slot" data-ad-position={position} aria-label="広告">
+    <span class="ad-slot__label">スポンサーリンク</span>
+    <div class="ad-slot__inner" set:html={code} />
+  </aside>
+)}
