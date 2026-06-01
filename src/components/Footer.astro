@@ -1,0 +1,25 @@
+---
+import { SITE_TITLE } from '../consts';
+const base = import.meta.env.BASE_URL;
+const year = new Date().getFullYear();
+
+const navItems = [
+  { label: 'ホーム', href: base },
+  { label: '記事一覧', href: base },
+  { label: 'カテゴリー', href: base },
+  { label: '運営者情報', href: `${base}about/` },
+  { label: 'お問い合わせ', href: `${base}contact/` },
+  { label: 'プライバシー', href: `${base}privacy/` },
+];
+---
+<footer class="site-footer">
+  <nav class="site-footer__nav">
+    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+  <div class="site-footer__disclaimer">
+    本サイトに掲載する情報は一般的な情報提供を目的としたものです。内容の正確性・最新性には配慮していますが、利用にあたっては各公式情報をご確認ください。
+  </div>
+  <div class="site-footer__copy">
+    &copy; {year} {SITE_TITLE}
+  </div>
+</footer>
