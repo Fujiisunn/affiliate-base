@@ -19,7 +19,7 @@ export async function GET(context) {
       title: article.data.title,
       description: article.data.description,
       pubDate: article.data.pubDate,
-      link: `${base}articles/${article.id}/`,
+      link: `${base}news/${article.data.postId}/`,
       categories: article.data.category ? [article.data.category] : [],
     })),
     customData: `<language>ja</language>`,

@@ -46,7 +46,7 @@ const base = import.meta.env.BASE_URL;
       <div class="article-grid">
         {articles.map((article) => (
           <ArticleCard
-            href={`${base}articles/${article.id}/`}
+            href={`${base}news/${article.data.postId}/`}
             title={article.data.title}
             description={article.data.description}
             date={article.data.pubDate}

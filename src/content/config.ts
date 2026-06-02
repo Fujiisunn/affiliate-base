@@ -4,6 +4,8 @@ import { glob } from 'astro/loaders';
 const articles = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/articles' }),
   schema: z.object({
+    // 記事URLの連番ID(/news/<postId>/)。記事ごとに重複しない番号を必ず振る。
+    postId: z.number(),
     title: z.string(),
     description: z.string().optional(),
     pubDate: z.coerce.date(),
