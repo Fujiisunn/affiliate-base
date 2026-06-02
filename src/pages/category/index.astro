@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+
+const base = import.meta.env.BASE_URL;
+const articles = await getCollection('articles', ({ data }) => !data.draft);
+
+const counts = new Map();
+for (const a of articles) {
+  const c = a.data.category ?? '記事';
+  counts.set(c, (counts.get(c) ?? 0) + 1);
+}
+const categories = [...counts.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .map(([label, count]) => ({
+    label,
+    count,
+    href: `${base}category/${encodeURIComponent(label)}/`,
+  }));
+---
+<BaseLayout title="カテゴリー一覧" description="記事のカテゴリー一覧です。">
+  <nav class="breadcrumb" aria-label="パンくず">
+    <a href={base}>ホーム</a>
+    <span class="breadcrumb__sep">›</span>
+    <span>カテゴリー</span>
+  </nav>
+
+  <div class="layout">
+    <div>
+      <div class="page-header">
+        <h1 class="page-header__title">カテゴリー</h1>
+        <span class="page-header__suffix">– category –</span>
+      </div>
+
+      {categories.length === 0 ? (
+        <div class="empty-state">カテゴリーはまだありません。</div>
+      ) : (
+        <ul class="category-list">
+          {categories.map((cat) => (
+            <li>
+              <a href={cat.href} class="category-list__item">
+                <span class="category-list__label">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z"/>
+                  </svg>
+                  {cat.label}
+                </span>
+                <span class="category-list__count">{cat.count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <Sidebar />
+  </div>
+</BaseLayout>

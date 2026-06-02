@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import Sidebar from '../../components/Sidebar.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  const categories = [...new Set(articles.map((a) => a.data.category ?? '記事'))];
+  return categories.map((category) => ({
+    params: { category },
+    props: {
+      category,
+      articles: articles
+        .filter((a) => (a.data.category ?? '記事') === category)
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { category, articles } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<BaseLayout
+  title={`${category}の記事一覧`}
+  description={`「${category}」カテゴリーの記事一覧です。`}
+>
+  <nav class="breadcrumb" aria-label="パンくず">
+    <a href={base}>ホーム</a>
+    <span class="breadcrumb__sep">›</span>
+    <a href={`${base}category/`}>カテゴリー</a>
+    <span class="breadcrumb__sep">›</span>
+    <span>{category}</span>
+  </nav>
+
+  <div class="layout">
+    <div>
+      <div class="page-header">
+        <h1 class="page-header__title">{category}</h1>
+        <span class="page-header__suffix">– category –</span>
+      </div>
+
+      <div class="article-grid">
+        {articles.map((article) => (
+          <ArticleCard
+            href={`${base}articles/${article.id}/`}
+            title={article.data.title}
+            description={article.data.description}
+            date={article.data.pubDate}
+            category={article.data.category}
+            thumb={article.data.thumb}
+          />
+        ))}
+      </div>
+    </div>
+
+    <Sidebar />
+  </div>
+</BaseLayout>
