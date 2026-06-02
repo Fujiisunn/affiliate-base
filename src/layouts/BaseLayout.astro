@@ -2,6 +2,11 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import {
+  GA4_MEASUREMENT_ID,
+  SEND_ON_LOCALHOST,
+  CUSTOM_ANALYTICS_SNIPPET,
+} from '../analyticsConfig';
 import '../styles/global.css';
 
 interface Props {
@@ -110,6 +115,33 @@ const articleSchema =
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     {articleSchema && (
       <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    )}
+
+    {/* === PV計測(Google Analytics 4)。analyticsConfig.ts でID設定 === */}
+    {GA4_MEASUREMENT_ID && (
+      <Fragment>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
+          is:inline
+        ></script>
+        <script is:inline define:vars={{ id: GA4_MEASUREMENT_ID, sendOnLocalhost: SEND_ON_LOCALHOST }}>
+          (function () {
+            var host = location.hostname;
+            var isLocal = host === 'localhost' || host === '127.0.0.1' || host === '';
+            if (isLocal && !sendOnLocalhost) return;
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', id);
+          })();
+        </script>
+      </Fragment>
+    )}
+    {/* === その他の計測タグ(任意。analyticsConfig.ts に貼る) === */}
+    {CUSTOM_ANALYTICS_SNIPPET && (
+      <Fragment set:html={CUSTOM_ANALYTICS_SNIPPET} />
     )}
   </head>
   <body>
