@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import AdSlot from './AdSlot.astro';
+import { getCategory } from '../categories';
 const base = import.meta.env.BASE_URL;
 
-// 公開記事から実在カテゴリを自動集計(件数の多い順)
+// 公開記事から実在カテゴリを自動集計(定義順 → 件数順)
 const articles = await getCollection('articles', ({ data }) => !data.draft);
 const counts = new Map();
 for (const a of articles) {
@@ -11,12 +12,11 @@ for (const a of articles) {
   counts.set(c, (counts.get(c) ?? 0) + 1);
 }
 const categories = [...counts.entries()]
-  .sort((a, b) => b[1] - a[1])
-  .map(([label, count]) => ({
-    label,
-    count,
-    href: `${base}category/${encodeURIComponent(label)}/`,
-  }));
+  .map(([slug, count]) => {
+    const cat = getCategory(slug);
+    return { label: cat.label, count, order: cat.order, href: `${base}category/${slug}/` };
+  })
+  .sort((a, b) => a.order - b.order || b.count - a.count);
 ---
 <aside class="sidebar">
   <form class="sidebar__search" role="search" onsubmit="return false;">

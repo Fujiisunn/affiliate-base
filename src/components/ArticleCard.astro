@@ -1,4 +1,6 @@
 ---
+import { categoryLabel } from '../categories';
+
 interface Props {
   href: string;
   title: string;
@@ -8,8 +10,9 @@ interface Props {
   thumb?: string;
 }
 
-const { href, title, description, date, category = '記事', thumb } = Astro.props;
+const { href, title, description, date, category, thumb } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const categoryName = category ? categoryLabel(category) : '記事';
 const dateLabel = date
   ? new Intl.DateTimeFormat('ja-JP', {
       year: 'numeric',
@@ -29,7 +32,7 @@ const thumbSrc = thumb
       <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z"/>
       </svg>
-      {category}
+      {categoryName}
     </span>
     {thumbSrc ? (
       <img src={thumbSrc} alt="" class="article-card__media-img" loading="lazy" />
