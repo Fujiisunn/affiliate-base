@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://Fujiisunn.github.io/affiliate-base/sitemap-index.xml
+Sitemap: https://topicknow.com/sitemap-index.xml

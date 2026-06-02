@@ -6,10 +6,10 @@ import sitemap from '@astrojs/sitemap';
 // GitHub Pages サブパス配信なら BASE = '/<repo-name>'、
 // カスタムドメイン(ルート配信)なら BASE = '/'。
 // site も本番URLに差し替える。
-const BASE = '/affiliate-base';
+const BASE = '/';
 
 export default defineConfig({
-  site: 'https://Fujiisunn.github.io',
+  site: 'https://topicknow.com',
   base: BASE,
   trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
